@@ -24,7 +24,7 @@ class AccessController(Controller):
         return {}
 
     @post(component="Auth/Login", name="login.check", path="/login/")
-    async def login(self, request: Request[Any, Any, Any], users_service: services.UserService, data: schemas.AccountLogin) -> InertiaRedirect:
+    async def login(self, request: Request[Any, Any, Any], users_service: services.UserService, data: schemas.UserLogin) -> InertiaRedirect:
         """Authenticate a user."""
         user = await users_service.authenticate(data.username, data.password)
         request.set_session({"user_id": user.email})
@@ -53,7 +53,7 @@ class RegistrationController(Controller):
         return {}
 
     @post(component="auth/register", name="register.add", path="/register/")
-    async def signup(self, request: Request, users_service: services.UserService, data: schemas.AccountRegister) -> InertiaRedirect:
+    async def signup(self, request: Request, users_service: services.UserService, data: schemas.UserRegister) -> InertiaRedirect:
         """User Signup."""
         user = await users_service.create(data.to_dict())
         request.set_session({"user_id": user.email})

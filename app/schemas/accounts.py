@@ -1,14 +1,25 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import msgspec
 
 from app.schemas.base import CamelizedBaseStruct
+from database.models import AccountRoles
+
+if TYPE_CHECKING:
+    from uuid import UUID
+
+
+class AccountAssignment(CamelizedBaseStruct):
+    team_id: UUID
+    team_name: str
+    is_owner: bool = False
+    role: AccountRoles = AccountRoles.MEMBER
 
 
 class User(CamelizedBaseStruct):
-    """User properties to use for a response."""
-
-    id: int
+    id: UUID
     email: str
     name: str | None = None
     is_superuser: bool = False
@@ -16,6 +27,7 @@ class User(CamelizedBaseStruct):
     is_verified: bool = False
     has_password: bool = False
     avatar_url: str | None = None
+    accounts: list[AccountAssignment] = []
 
 
 class UserCreate(CamelizedBaseStruct):
@@ -25,6 +37,7 @@ class UserCreate(CamelizedBaseStruct):
     is_superuser: bool = False
     is_active: bool = True
     is_verified: bool = False
+    initial_account: str | None = None
 
 
 class UserUpdate(CamelizedBaseStruct, omit_defaults=True):
@@ -36,7 +49,7 @@ class UserUpdate(CamelizedBaseStruct, omit_defaults=True):
     is_verified: bool | None | msgspec.UnsetType = msgspec.UNSET
 
 
-class AccountLogin(CamelizedBaseStruct):
+class UserLogin(CamelizedBaseStruct):
     username: str
     password: str
 
@@ -54,7 +67,8 @@ class ProfileUpdate(CamelizedBaseStruct, omit_defaults=True):
     name: str | None | msgspec.UnsetType = msgspec.UNSET
 
 
-class AccountRegister(CamelizedBaseStruct):
+class UserRegister(CamelizedBaseStruct):
     email: str
     password: str
     name: str | None = None
+    initial_account: str | None = None

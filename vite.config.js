@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import litestar from "litestar-vite-plugin";
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
 const ASSET_URL = process.env.ASSET_URL || "/static/";
 const VITE_PORT = process.env.VITE_PORT || "5173";
@@ -22,9 +23,6 @@ export default defineConfig({
       refresh: true,
       assetUrl: `${ASSET_URL}`,
       bundleDirectory: "app/static",
-      resourceDirectory: "resources",
-      ssrOutputDirectory: "app/static/bootstrap",
-      hotFile: "app/static/hot"
     }),
     vue({
       template: {
@@ -37,7 +35,7 @@ export default defineConfig({
   ],
   resolve: {
 		alias: {
-			"@/": "resources/js/",
+			"@/": path.join(__dirname,"resources/js/"),
 		},
 	},
 });

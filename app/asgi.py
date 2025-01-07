@@ -22,6 +22,7 @@ def create_app() -> Litestar:
     from litestar_vite.inertia import InertiaPlugin
 
     from app import config, deps, schemas, services
+    from app.cli import CommandLinePlugin
     from app.controllers.access import AccessController, RegistrationController
     from app.controllers.profile import ProfileController
     from app.controllers.site import SiteController
@@ -45,6 +46,7 @@ def create_app() -> Litestar:
             VitePlugin(config=config.vite),
             InertiaPlugin(config=config.inertia),
             FlashPlugin(config=FlashConfig(template_config=config.templates)),
+            CommandLinePlugin(),
         ],
         stores={"session": FileStore(Path(".state/sessions"), create_directories=True)},
         middleware=[config.session.middleware],

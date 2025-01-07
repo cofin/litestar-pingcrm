@@ -1,16 +1,7 @@
 from __future__ import annotations
 
 from app.schemas import base
-from app.schemas._accounts import (
-    AccountLogin,
-    AccountRegister,
-    PasswordUpdate,
-    PasswordVerify,
-    ProfileUpdate,
-    User,
-    UserCreate,
-    UserUpdate,
-)
+from app.schemas.accounts import AccountAssignment, PasswordUpdate, PasswordVerify, ProfileUpdate, User, UserCreate, UserLogin, UserRegister, UserUpdate
 
 
 class Message(base.CamelizedBaseStruct):
@@ -18,14 +9,15 @@ class Message(base.CamelizedBaseStruct):
 
 
 __all__ = (
-    "AccountLogin",
-    "AccountRegister",
+    "AccountAssignment",
     "Message",
     "PasswordUpdate",
     "PasswordVerify",
     "ProfileUpdate",
     "User",
     "UserCreate",
+    "UserLogin",
+    "UserRegister",
     "UserUpdate",
     "base",
 )

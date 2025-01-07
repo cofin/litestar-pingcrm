@@ -85,6 +85,5 @@ session_auth = SessionAuth[m.User, ServerSideSessionBackend](
         "^/health",
         "^/login",
         "^/register",
-        "^/o/",
     ],
 )

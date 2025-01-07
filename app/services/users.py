@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from advanced_alchemy.repository import SQLAlchemyAsyncRepository
-from advanced_alchemy.service import ModelDictT, SQLAlchemyAsyncRepositoryService
+from advanced_alchemy.service import ModelDictT, SQLAlchemyAsyncRepositoryService, is_dict_with_field
 from litestar.exceptions import PermissionDeniedException
 
 from config import crypt
@@ -57,8 +57,16 @@ class UserService(SQLAlchemyAsyncRepositoryService[m.User]):
         return user.is_superuser
 
     async def to_model(self, data: ModelDictT[m.User], operation: str | None = None) -> m.User:
-        if isinstance(data, dict) and "password" in data:
+        if is_dict_with_field(data, "password"):
             password: bytes | str | None = data.pop("password", None)
             if password is not None:
                 data.update({"hashed_password": await crypt.get_password_hash(password)})
+
+        if is_dict_with_field(data, "initial_account") and operation == "create":
+            initial_account: str | None = data.pop("initial_account", None)
+            data = await super().to_model(data, operation)
+            data.accounts.append(m.AccountMember(account=m.Account(name=initial_account), role=m.AccountRoles.ADMIN, is_owner=True))
+        if is_dict_with_field(data, "initial_account"):
+            data.pop("initial_account")
+
         return await super().to_model(data, operation)

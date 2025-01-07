@@ -82,10 +82,7 @@ class DatabaseSettings:
         )
 
         @event.listens_for(self._engine_instance.sync_engine, "connect")
-        def _sqla_on_connect(
-            dbapi_connection: Any,
-            _: Any,
-        ) -> Any:
+        def _sqla_on_connect(dbapi_connection: Any, _: Any) -> Any:
             dbapi_connection.isolation_level = None
 
         @event.listens_for(self._engine_instance.sync_engine, "begin")

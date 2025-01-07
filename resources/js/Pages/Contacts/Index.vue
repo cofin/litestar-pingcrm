@@ -50,7 +50,7 @@
           </td>
           <td class="w-px border-t">
             <Link class="flex items-center px-4" :href="`/contacts/${contact.id}/edit`" tabindex="-1">
-              <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
+              <icon name="chevron-right" class="block w-6 h-6 fill-gray-400" />
             </Link>
           </td>
         </tr>

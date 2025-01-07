@@ -1,0 +1,1 @@
+[{"email":"johndoe@example.com","password":"secret","name":"John Doe", "is_superuser":true, "is_active":true, "initial_account": "Acme Corporation"}]
